@@ -15,20 +15,22 @@ limitations under the License.
 
 #include "output_handler.h"
 
-#include "Arduino.h"
+#include <Particle.h>
 #include "constants.h"
 
-// The pin of the Arduino's built-in LED
-int led = LED_BUILTIN;
+// The pin of the built-in LED on Particle Devices
+int led = D7;
 
 // Track whether the function has run at least once
 bool initialized = false;
 
 // Animates a dot across the screen to represent the current x and y values
-void HandleOutput(tflite::ErrorReporter* error_reporter, float x_value,
-                  float y_value) {
+void HandleOutput(tflite::ErrorReporter *error_reporter, float x_value,
+                  float y_value)
+{
   // Do this only once
-  if (!initialized) {
+  if (!initialized)
+  {
     // Set the LED pin to output
     pinMode(led, OUTPUT);
     initialized = true;
@@ -42,6 +44,6 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, float x_value,
   // this will result in the LED being on when y > 127, off otherwise.
   analogWrite(led, brightness);
 
-  // Log the current brightness value for display in the Arduino plotter
+  // Log the current brightness value
   error_reporter->Report("%d\n", brightness);
 }
