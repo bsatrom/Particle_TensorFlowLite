@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+target/
+lib/
+
 # Object files
 *.o
 *.ko
