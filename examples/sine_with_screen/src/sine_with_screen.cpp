@@ -15,6 +15,7 @@ limitations under the License.
 
 #include <TensorFlowLite.h>
 #include <Particle.h>
+#include "Adafruit_HX8357.h"
 
 SYSTEM_MODE(MANUAL);
 SYSTEM_THREAD(ENABLED);
@@ -29,6 +30,20 @@ SYSTEM_THREAD(ENABLED);
 #include "tensorflow/lite/experimental/micro/micro_interpreter.h"
 #include "tensorflow/lite/schema/schema_generated.h"
 #include "tensorflow/lite/version.h"
+
+#define TFT_DC D5
+#define TFT_CS D4
+#define STMPE_CS D3
+#define SD_CS D2
+#define TFT_RST -1
+
+int waveBoxWidth = 480;
+float waveBoxHeight = 300.f;
+int lastYPos = 0;
+double currentXPos = 0.d;
+double xStep = 0.75;
+
+Adafruit_HX8357 tft = Adafruit_HX8357(TFT_CS, TFT_DC, TFT_RST);
 
 namespace
 {
@@ -48,6 +63,14 @@ uint8_t tensor_arena[kTensorArenaSize];
 // The name of this function is important for Arduino compatibility.
 void setup()
 {
+  tft.begin();
+  tft.fillScreen(HX8357_BLACK);
+  tft.setRotation(1);
+  tft.setTextSize(3);
+  tft.setCursor(70, 10);
+  tft.setTextColor(HX8357_WHITE);
+  tft.println("TFLite for Particle");
+
   // Set up logging. Google style is to avoid globals or statics because of
   // lifetime uncertainty, but since this has a trivial destructor it's okay.
   // NOLINTNEXTLINE(runtime-global-variables)
@@ -116,6 +139,30 @@ void loop()
 
   // Read the predicted y value from the model's output tensor
   float y_val = output->data.f[0];
+
+  // Draw a circle on the tft_screen that corresponds with the y value
+  // if is -1, we'll draw the circle at the bottom (y = 300) of the screen
+  // if y is 1, we'll draw the circle at the top (y = 20) of the screen
+  // The x value will increment each time through and roll back to 0 after
+  // the screen widge of 480 is reached.
+  float yPos = map(y_val, -1.f, 1.f, 40.f, waveBoxHeight);
+
+  if (currentXPos == 0.d)
+  {
+    tft.fillCircle(waveBoxWidth, lastYPos, 5, HX8357_BLACK);
+  }
+  else
+  {
+    tft.fillCircle(currentXPos - xStep, lastYPos, 5, HX8357_BLACK);
+  }
+  tft.fillCircle(currentXPos, (int)yPos, 5, HX8357_RED);
+
+  lastYPos = (int)yPos;
+  currentXPos = currentXPos + xStep;
+  if (currentXPos > waveBoxWidth)
+  {
+    currentXPos = 0.d;
+  }
 
   // Output the results. A custom HandleOutput function can be implemented
   // for each supported hardware target.

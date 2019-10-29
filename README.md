@@ -19,16 +19,17 @@ To use TensorFlow Lite for Microcontrollers with your own models, you'll need to
 
 ## Using the library
 
-[TODO]
+See the [TensorFlow Lite for Microcontrollers docs](https://www.tensorflow.org/lite/microcontrollers/get_started#how_to_run_inference) for detailed instructions on running inference on embedded devices.
 
 ## Included Examples
 
 The source contains the following examples, some of which require additional hardware and may not run across all Particle devices (especially the Photon) due to model size constraints.
 
 1. `hello_world` - Runs a simple sine wave model (2kb in size) to predict the next wave position. Uses the output to `analogWrite` the waveform value to the onboard D7 LED. Tested on the Particle Photon and Xenon.
-2. `magic_wand` - [TODO]
-3. `micro_speech` - [TODO]
-4. `person_detection` - [TODO]
+2. `sine_with_screen` - Runs the same sine wave model from the `hello_world` project, and outputs the result to an [Adafruit 3.5" TFT FeatherWing](https://www.adafruit.com/product/3651). Can easily be adapted to other displays. 
+3. `magic_wand` - [Not yet supported]
+4. `micro_speech` - [Not yet supported]
+5. `person_detection` - [Not yet supported]
 
 ## Dealing with Large Models
 
