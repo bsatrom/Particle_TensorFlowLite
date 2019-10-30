@@ -62,9 +62,10 @@ TfLiteIntArray *TfLiteIntArrayCreate(int size)
 void TfLiteIntArrayPrint(const char *s, TfLiteIntArray *a)
 {
   // sprintf(stderr, "%s: length=%d [", s, a->size);
-  if (a->size)
-    // sprintf(stderr, "%d", a->data[0]);
-    int i = 1;
+  //if (a->size) {
+  // sprintf(stderr, "%d", a->data[0]);
+  // }
+  int i = 1;
   for (; i < a->size; i++)
   {
     // sprintf(stderr, " %d", a->data[i]);
