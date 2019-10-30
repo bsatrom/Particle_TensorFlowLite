@@ -16,7 +16,6 @@ limitations under the License.
 
 #include <stdio.h>
 #include <string.h>
-#include <Particle.h>
 
 #include "tensorflow/lite/experimental/microfrontend/lib/bits.h"
 
@@ -36,13 +35,13 @@ int FrontendPopulateState(const struct FrontendConfig *config,
 
   if (!WindowPopulateState(&config->window, &state->window, sample_rate))
   {
-    Log.info("Failed to populate window state\n");
+    // sprintf(stderr, "Failed to populate window state\n");
     return 0;
   }
 
   if (!FftPopulateState(&state->fft, state->window.size))
   {
-    Log.info("Failed to populate fft state\n");
+    // sprintf(stderr, "Failed to populate fft state\n");
     return 0;
   }
   FftInit(&state->fft);
@@ -50,7 +49,7 @@ int FrontendPopulateState(const struct FrontendConfig *config,
   if (!FilterbankPopulateState(&config->filterbank, &state->filterbank,
                                sample_rate, state->fft.fft_size / 2 + 1))
   {
-    Log.info("Failed to populate filterbank state\n");
+    // sprintf(stderr, "Failed to populate filterbank state\n");
     return 0;
   }
 
@@ -58,7 +57,7 @@ int FrontendPopulateState(const struct FrontendConfig *config,
                                    &state->noise_reduction,
                                    state->filterbank.num_channels))
   {
-    Log.info("Failed to populate noise reduction state\n");
+    // sprintf(stderr, "Failed to populate noise reduction state\n");
     return 0;
   }
 
@@ -69,13 +68,13 @@ int FrontendPopulateState(const struct FrontendConfig *config,
           state->noise_reduction.estimate, state->filterbank.num_channels,
           state->noise_reduction.smoothing_bits, input_correction_bits))
   {
-    Log.info("Failed to populate pcan gain control state\n");
+    // sprintf(stderr, "Failed to populate pcan gain control state\n");
     return 0;
   }
 
   if (!LogScalePopulateState(&config->log_scale, &state->log_scale))
   {
-    Log.info("Failed to populate log scale state\n");
+    // sprintf(stderr, "Failed to populate log scale state\n");
     return 0;
   }
 

@@ -15,7 +15,6 @@ limitations under the License.
 #include "tensorflow/lite/experimental/microfrontend/lib/fft_util.h"
 
 #include <stdio.h>
-#include <Particle.h>
 
 #define FIXED_POINT 16
 #include "third_party/kissfft/kiss_fft.h"
@@ -34,7 +33,7 @@ int FftPopulateState(struct FftState *state, size_t input_size)
       malloc(state->fft_size * sizeof(*state->input)));
   if (state->input == nullptr)
   {
-    Log.info("Failed to alloc fft input buffer\n");
+    // sprintf(stderr, "Failed to alloc fft input buffer\n");
     return 0;
   }
 
@@ -42,7 +41,7 @@ int FftPopulateState(struct FftState *state, size_t input_size)
       malloc((state->fft_size / 2 + 1) * sizeof(*state->output) * 2));
   if (state->output == nullptr)
   {
-    Log.info("Failed to alloc fft output buffer\n");
+    // sprintf(stderr, "Failed to alloc fft output buffer\n");
     return 0;
   }
 
@@ -52,13 +51,13 @@ int FftPopulateState(struct FftState *state, size_t input_size)
       state->fft_size, 0, nullptr, &scratch_size);
   if (kfft_cfg != nullptr)
   {
-    Log.info("Kiss memory sizing failed.\n");
+    // sprintf(stderr, "Kiss memory sizing failed.\n");
     return 0;
   }
   state->scratch = malloc(scratch_size);
   if (state->scratch == nullptr)
   {
-    Log.info("Failed to alloc fft scratch buffer\n");
+    // sprintf(stderr, "Failed to alloc fft scratch buffer\n");
     return 0;
   }
   state->scratch_size = scratch_size;
@@ -67,7 +66,7 @@ int FftPopulateState(struct FftState *state, size_t input_size)
                              state->scratch, &scratch_size);
   if (kfft_cfg != state->scratch)
   {
-    Log.info("Kiss memory preallocation strategy failed.\n");
+    // sprintf(stderr, "Kiss memory preallocation strategy failed.\n");
     return 0;
   }
   return 1;

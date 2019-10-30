@@ -42,12 +42,11 @@ inline void InfiniteLoop()
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
-#include <Particle.h>
 
-#define DEBUG_LOG(x)    \
-  do                    \
-  {                     \
-    Log.info("%s", (x)); \
+#define DEBUG_LOG(x) \
+  do                 \
+  {                  \
+  // sprintf(stderr, "%s", (x)); \
   } while (0)
 
 #define TFLITE_ABORT abort()

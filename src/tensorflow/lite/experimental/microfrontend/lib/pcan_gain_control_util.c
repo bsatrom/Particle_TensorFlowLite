@@ -16,7 +16,6 @@ limitations under the License.
 
 #include <math.h>
 #include <stdio.h>
-#include <Particle.h>
 
 #define kint16max 0x00007FFF
 
@@ -61,7 +60,7 @@ int PcanGainControlPopulateState(const struct PcanGainControlConfig *config,
   state->gain_lut = malloc(kWideDynamicFunctionLUTSize * sizeof(int16_t));
   if (state->gain_lut == NULL)
   {
-    Log.info("Failed to allocate gain LUT\n");
+    // sprintf(stderr, "Failed to allocate gain LUT\n");
     return 0;
   }
   state->snr_shift = config->gain_bits - input_correction_bits - kPcanSnrBits;

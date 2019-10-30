@@ -15,7 +15,6 @@ limitations under the License.
 #include "tensorflow/lite/experimental/microfrontend/lib/noise_reduction_util.h"
 
 #include <stdio.h>
-#include <Particle.h>
 
 void NoiseReductionFillConfigWithDefaults(struct NoiseReductionConfig *config)
 {
@@ -38,7 +37,7 @@ int NoiseReductionPopulateState(const struct NoiseReductionConfig *config,
   state->estimate = calloc(state->num_channels, sizeof(*state->estimate));
   if (state->estimate == NULL)
   {
-    Log.info("Failed to alloc estimate buffer\n");
+    // sprintf(stderr, "Failed to alloc estimate buffer\n");
     return 0;
   }
   return 1;

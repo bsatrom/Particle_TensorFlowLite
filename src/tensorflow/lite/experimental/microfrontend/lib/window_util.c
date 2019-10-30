@@ -20,7 +20,6 @@ limitations under the License.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <Particle.h>
 
 // Some platforms don't have M_PI
 #ifndef M_PI
@@ -42,7 +41,7 @@ int WindowPopulateState(const struct WindowConfig *config,
   state->coefficients = malloc(state->size * sizeof(*state->coefficients));
   if (state->coefficients == NULL)
   {
-    Log.info("Failed to allocate window coefficients\n");
+    // sprintf(stderr, "Failed to allocate window coefficients\n");
     return 0;
   }
 
@@ -61,14 +60,14 @@ int WindowPopulateState(const struct WindowConfig *config,
   state->input = malloc(state->size * sizeof(*state->input));
   if (state->input == NULL)
   {
-    Log.info("Failed to allocate window input\n");
+    // sprintf(stderr, "Failed to allocate window input\n");
     return 0;
   }
 
   state->output = malloc(state->size * sizeof(*state->output));
   if (state->output == NULL)
   {
-    Log.info("Failed to allocate window output\n");
+    // sprintf(stderr, "Failed to allocate window output\n");
     return 0;
   }
 

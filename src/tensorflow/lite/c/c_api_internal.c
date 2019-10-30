@@ -14,7 +14,6 @@ limitations under the License.
 ==============================================================================*/
 
 #include "tensorflow/lite/c/c_api_internal.h"
-#include <Particle.h>
 #ifndef TF_LITE_STATIC_MEMORY
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,15 +61,15 @@ TfLiteIntArray *TfLiteIntArrayCreate(int size)
 
 void TfLiteIntArrayPrint(const char *s, TfLiteIntArray *a)
 {
-  Log.info("%s: length=%d [", s, a->size);
+  // sprintf(stderr, "%s: length=%d [", s, a->size);
   if (a->size)
-    Log.info("%d", a->data[0]);
-  int i = 1;
+    // sprintf(stderr, "%d", a->data[0]);
+    int i = 1;
   for (; i < a->size; i++)
   {
-    Log.info(" %d", a->data[i]);
+    // sprintf(stderr, " %d", a->data[i]);
   }
-  Log.info("]\n");
+  // sprintf(stderr, "]\n");
 }
 
 TfLiteIntArray *TfLiteIntArrayCopy(const TfLiteIntArray *src)

@@ -18,7 +18,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
    typedef struct { kiss_fft_scalar r; kiss_fft_scalar i; }kiss_fft_cpx; */
 #include "third_party/kissfft/kiss_fft.h"
 #include <limits.h>
-#include <Particle.h>
 
 #define MAXFACTORS 32
 /* e.g. an fft of length 128 has 4 factors 
@@ -57,10 +56,10 @@ struct kiss_fft_state
 #define SAMP_MIN -SAMP_MAX
 
 #if defined(CHECK_OVERFLOW)
-#define CHECK_OVERFLOW_OP(a, op, b)                                                                                                \
-    if ((SAMPPROD)(a)op(SAMPPROD)(b) > SAMP_MAX || (SAMPPROD)(a)op(SAMPPROD)(b) < SAMP_MIN)                                        \
-    {                                                                                                                              \
-        Log.info("WARNING:overflow @ " __FILE__ "(%d): (%d " #op " %d) = %ld\n", __LINE__, (a), (b), (SAMPPROD)(a)op(SAMPPROD)(b)); \
+#define CHECK_OVERFLOW_OP(a, op, b)                                                         \
+    if ((SAMPPROD)(a)op(SAMPPROD)(b) > SAMP_MAX || (SAMPPROD)(a)op(SAMPPROD)(b) < SAMP_MIN) \
+    {                                                                                       \
+    // sprintf(stderr, "WARNING:overflow @ " __FILE__ "(%d): (%d " #op " %d) = %ld\n", __LINE__, (a), (b), (SAMPPROD)(a)op(SAMPPROD)(b)); \
     }
 #endif
 
@@ -172,7 +171,7 @@ struct kiss_fft_state
 
 /* a debugging function */
 #define pcpx(c) \
-    Log.info("%g + %gi\n", (double)((c)->r), (double)((c)->i))
+    // sprintf(stderr, "%g + %gi\n", (double)((c)->r), (double)((c)->i))
 
 #ifdef KISS_FFT_USE_ALLOCA
 // define this to allow use of alloca instead of malloc for temporary buffers

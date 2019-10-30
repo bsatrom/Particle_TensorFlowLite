@@ -17,7 +17,6 @@ limitations under the License.
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
-#include <Particle.h>
 
 #define kFilterbankIndexAlignment 4
 #define kFilterbankChannelBlockSize 4
@@ -94,7 +93,7 @@ int FilterbankPopulateState(const struct FilterbankConfig *config,
     free(center_mel_freqs);
     free(actual_channel_starts);
     free(actual_channel_widths);
-    Log.info("Failed to allocate channel buffers\n");
+    // sprintf(stderr, "Failed to allocate channel buffers\n");
     return 0;
   }
 
@@ -183,7 +182,7 @@ int FilterbankPopulateState(const struct FilterbankConfig *config,
     free(center_mel_freqs);
     free(actual_channel_starts);
     free(actual_channel_widths);
-    Log.info("Failed to allocate weights or unweights\n");
+    // sprintf(stderr, "Failed to allocate weights or unweights\n");
     return 0;
   }
 
@@ -223,7 +222,7 @@ int FilterbankPopulateState(const struct FilterbankConfig *config,
   free(actual_channel_widths);
   if (state->end_index >= spectrum_size)
   {
-    Log.info("Filterbank end_index is above spectrum size.\n");
+    // sprintf(stderr, "Filterbank end_index is above spectrum size.\n");
     return 0;
   }
   return 1;
