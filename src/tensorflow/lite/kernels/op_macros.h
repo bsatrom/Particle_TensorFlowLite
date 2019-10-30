@@ -22,27 +22,31 @@ limitations under the License.
 #include "tensorflow/lite/experimental/micro/micro_error_reporter.h"
 
 #define DEBUG_LOG(x) \
-  do {               \
+  do                 \
+  {                  \
     DebugLog(x);     \
   } while (0)
 
-inline void InfiniteLoop() {
+inline void InfiniteLoop()
+{
   DEBUG_LOG("HALTED\n");
-  while (1) {
+  while (1)
+  {
   }
 }
 #define TFLITE_ASSERT_FALSE InfiniteLoop();
 #define TFLITE_ABORT InfiniteLoop();
 
-#else  // TF_LITE_MCU_DEBUG_LOG
+#else // TF_LITE_MCU_DEBUG_LOG
 
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
 
-#define DEBUG_LOG(x)            \
-  do {                          \
-    fprintf(stderr, "%s", (x)); \
+#define DEBUG_LOG(x)    \
+  do                    \
+  {                     \
+    sprintf("%s", (x)); \
   } while (0)
 
 #define TFLITE_ABORT abort()
@@ -53,23 +57,28 @@ inline void InfiniteLoop() {
 #define TFLITE_ASSERT_FALSE TFLITE_ABORT
 #endif
 
-#endif  // TF_LITE_MCU_DEBUG_LOG
+#endif // TF_LITE_MCU_DEBUG_LOG
 
 #define TF_LITE_FATAL(msg)  \
-  do {                      \
+  do                        \
+  {                         \
     DEBUG_LOG(msg);         \
     DEBUG_LOG("\nFATAL\n"); \
     TFLITE_ABORT;           \
   } while (0)
 
-#define TF_LITE_ASSERT(x)        \
-  do {                           \
-    if (!(x)) TF_LITE_FATAL(#x); \
+#define TF_LITE_ASSERT(x) \
+  do                      \
+  {                       \
+    if (!(x))             \
+      TF_LITE_FATAL(#x);  \
   } while (0)
 
-#define TF_LITE_ASSERT_EQ(x, y)                            \
-  do {                                                     \
-    if ((x) != (y)) TF_LITE_FATAL(#x " didn't equal " #y); \
+#define TF_LITE_ASSERT_EQ(x, y)              \
+  do                                         \
+  {                                          \
+    if ((x) != (y))                          \
+      TF_LITE_FATAL(#x " didn't equal " #y); \
   } while (0)
 
-#endif  // TENSORFLOW_LITE_KERNELS_OP_MACROS_H_
+#endif // TENSORFLOW_LITE_KERNELS_OP_MACROS_H_

@@ -51,13 +51,13 @@ TfLiteIntArray* TfLiteIntArrayCreate(int size) {
 }
 
 void TfLiteIntArrayPrint(const char* s, TfLiteIntArray* a) {
-  printf("%s: length=%d [", s, a->size);
-  if (a->size) printf("%d", a->data[0]);
+  sprintf("%s: length=%d [", s, a->size);
+  if (a->size) sprintf("%d", a->data[0]);
   int i = 1;
   for (; i < a->size; i++) {
-    printf(" %d", a->data[i]);
+    sprintf(" %d", a->data[i]);
   }
-  printf("]\n");
+  sprintf("]\n");
 }
 
 TfLiteIntArray* TfLiteIntArrayCopy(const TfLiteIntArray* src) {
