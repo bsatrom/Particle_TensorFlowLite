@@ -26,9 +26,9 @@ See the [TensorFlow Lite for Microcontrollers docs](https://www.tensorflow.org/l
 The source contains the following examples, some of which require additional hardware and may not run across all Particle devices (especially the Photon) due to model size constraints.
 
 1. `hello_world` - Runs a simple sine wave model (2kb in size) to predict the next wave position. Uses the output to `analogWrite` the waveform value to the onboard D7 LED. Tested on the Particle Photon and Xenon.
-2. `sine_with_screen` - Runs the same sine wave model from the `hello_world` project, and outputs the result to an [Adafruit 3.5" TFT FeatherWing](https://www.adafruit.com/product/3651). Can easily be adapted to other displays. 
-3. `magic_wand` - [Not yet supported]
-4. `micro_speech` - [Not yet supported]
+2. `sine_with_screen` - Runs the same sine wave model from the `hello_world` project, and outputs the result to an [Adafruit 3.5" TFT FeatherWing](https://www.adafruit.com/product/3651). Can easily be adapted to other displays.
+3. `micro_speech` - Runs a speech detection model (18k in size) that can recognize the words "yes" and "no." Uses the output to flash the onboard D7 LED when "yes" is detected. Requires an [electret microphone amplifier](https://www.adafruit.com/product/1713). This example is only supported on Particle 3rd gen devices (Argon, Boron, Xenon)
+4. `magic_wand` - [Not yet supported]
 5. `person_detection` - [Not yet supported]
 
 ## Dealing with Large Models

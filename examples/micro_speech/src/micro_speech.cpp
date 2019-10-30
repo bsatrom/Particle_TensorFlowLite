@@ -14,6 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 #include <TensorFlowLite.h>
+#include <Particle.h>
 
 #include "main_functions.h"
 
@@ -29,24 +30,31 @@ limitations under the License.
 #include "tensorflow/lite/schema/schema_generated.h"
 #include "tensorflow/lite/version.h"
 
-namespace tflite {
-namespace ops {
-namespace micro {
-TfLiteRegistration* Register_DEPTHWISE_CONV_2D();
-TfLiteRegistration* Register_FULLY_CONNECTED();
-TfLiteRegistration* Register_SOFTMAX();
-}  // namespace micro
-}  // namespace ops
-}  // namespace tflite
+SYSTEM_MODE(MANUAL);
+// SYSTEM_THREAD(ENABLED);
+
+namespace tflite
+{
+namespace ops
+{
+namespace micro
+{
+TfLiteRegistration *Register_DEPTHWISE_CONV_2D();
+TfLiteRegistration *Register_FULLY_CONNECTED();
+TfLiteRegistration *Register_SOFTMAX();
+} // namespace micro
+} // namespace ops
+} // namespace tflite
 
 // Globals, used for compatibility with Arduino-style sketches.
-namespace {
-tflite::ErrorReporter* error_reporter = nullptr;
-const tflite::Model* model = nullptr;
-tflite::MicroInterpreter* interpreter = nullptr;
-TfLiteTensor* model_input = nullptr;
-FeatureProvider* feature_provider = nullptr;
-RecognizeCommands* recognizer = nullptr;
+namespace
+{
+tflite::ErrorReporter *error_reporter = nullptr;
+const tflite::Model *model = nullptr;
+tflite::MicroInterpreter *interpreter = nullptr;
+TfLiteTensor *model_input = nullptr;
+FeatureProvider *feature_provider = nullptr;
+RecognizeCommands *recognizer = nullptr;
 int32_t previous_time = 0;
 
 // Create an area of memory to use for input, output, and intermediate arrays.
@@ -54,10 +62,11 @@ int32_t previous_time = 0;
 // determined by experimentation.
 constexpr int kTensorArenaSize = 10 * 1024;
 uint8_t tensor_arena[kTensorArenaSize];
-}  // namespace
+} // namespace
 
 // The name of this function is important for Arduino compatibility.
-void setup() {
+void setup()
+{
   // Set up logging. Google style is to avoid globals or statics because of
   // lifetime uncertainty, but since this has a trivial destructor it's okay.
   // NOLINTNEXTLINE(runtime-global-variables)
@@ -67,7 +76,8 @@ void setup() {
   // Map the model into a usable data structure. This doesn't involve any
   // copying or parsing, it's a very lightweight operation.
   model = tflite::GetModel(g_tiny_conv_micro_features_model_data);
-  if (model->version() != TFLITE_SCHEMA_VERSION) {
+  if (model->version() != TFLITE_SCHEMA_VERSION)
+  {
     error_reporter->Report(
         "Model provided is schema version %d not equal "
         "to supported version %d.",
@@ -101,7 +111,8 @@ void setup() {
 
   // Allocate memory from the tensor_arena for the model's tensors.
   TfLiteStatus allocate_status = interpreter->AllocateTensors();
-  if (allocate_status != kTfLiteOk) {
+  if (allocate_status != kTfLiteOk)
+  {
     error_reporter->Report("AllocateTensors() failed");
     return;
   }
@@ -111,7 +122,8 @@ void setup() {
   if ((model_input->dims->size != 4) || (model_input->dims->data[0] != 1) ||
       (model_input->dims->data[1] != kFeatureSliceCount) ||
       (model_input->dims->data[2] != kFeatureSliceSize) ||
-      (model_input->type != kTfLiteUInt8)) {
+      (model_input->type != kTfLiteUInt8))
+  {
     error_reporter->Report("Bad input tensor parameters in model");
     return;
   }
@@ -127,42 +139,50 @@ void setup() {
   recognizer = &static_recognizer;
 
   previous_time = 0;
+
+  error_reporter->Report("TFLite Initialized.");
 }
 
 // The name of this function is important for Arduino compatibility.
-void loop() {
+void loop()
+{
   // Fetch the spectrogram for the current time.
   const int32_t current_time = LatestAudioTimestamp();
   int how_many_new_slices = 0;
   TfLiteStatus feature_status = feature_provider->PopulateFeatureData(
       error_reporter, previous_time, current_time, &how_many_new_slices);
-  if (feature_status != kTfLiteOk) {
+  if (feature_status != kTfLiteOk)
+  {
     error_reporter->Report("Feature generation failed");
     return;
   }
+
   previous_time = current_time;
   // If no new audio samples have been received since last time, don't bother
   // running the network model.
-  if (how_many_new_slices == 0) {
+  if (how_many_new_slices == 0)
+  {
     return;
   }
 
   // Run the model on the spectrogram input and make sure it succeeds.
   TfLiteStatus invoke_status = interpreter->Invoke();
-  if (invoke_status != kTfLiteOk) {
+  if (invoke_status != kTfLiteOk)
+  {
     error_reporter->Report("Invoke failed");
     return;
   }
 
   // Obtain a pointer to the output tensor
-  TfLiteTensor* output = interpreter->output(0);
+  TfLiteTensor *output = interpreter->output(0);
   // Determine whether a command was recognized based on the output of inference
-  const char* found_command = nullptr;
+  const char *found_command = nullptr;
   uint8_t score = 0;
   bool is_new_command = false;
   TfLiteStatus process_status = recognizer->ProcessLatestResults(
       output, current_time, &found_command, &score, &is_new_command);
-  if (process_status != kTfLiteOk) {
+  if (process_status != kTfLiteOk)
+  {
     error_reporter->Report("RecognizeCommands::ProcessLatestResults() failed");
     return;
   }

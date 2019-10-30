@@ -67,7 +67,7 @@ int WindowPopulateState(const struct WindowConfig *config,
   state->output = malloc(state->size * sizeof(*state->output));
   if (state->output == NULL)
   {
-    // sprintf(stderr, "Failed to allocate window output\n");
+    // sprintf(stderr, s"Failed to allocate window output\n");
     return 0;
   }
 
