@@ -45,7 +45,6 @@ const tflite::Model *model = nullptr;
 tflite::MicroInterpreter *interpreter = nullptr;
 TfLiteTensor *input = nullptr;
 TfLiteTensor *output = nullptr;
-int inference_count = 0;
 bool startInference = false;
 bool inferenceDone = false;
 bool resetInference = false;
@@ -112,9 +111,6 @@ void setup()
   // Obtain pointers to the model's input and output tensors.
   input = interpreter->input(0);
   output = interpreter->output(0);
-
-  // Keep track of how many inferences we have performed.
-  inference_count = 0;
 }
 
 void loop()

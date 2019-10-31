@@ -21,6 +21,50 @@ To use TensorFlow Lite for Microcontrollers with your own models, you'll need to
 
 For a complete walkthrough of the steps above, you can view one of the exercises in the TensorFlow docs, or check out the [README for the linear_regression example](/examples/linear_regression/README.md) for a step-by-step example of the model creation to MCU execution process.
 
+## Installation
+
+This library is available for use on all Particle devices and can be installed using one of the following approaches.
+
+### 1. Installing in the Particle Web IDE
+
+To install this libraries from the [Web IDE](https://build.particle.io), open the libraries tab by clicking on the bookmark icon on the lower left of the screen.
+
+![](assets/LibrariesMenu.png)
+
+Then, in the Community Libraries search box, type "TensorFlow" and click on the `TensorFLowLite` entry.
+
+![](assets/Search.png)
+
+Finally, click the "Include in Project" button and follow the prompts to pick the project in which to install this library.
+
+![](assets/Include.png)
+
+### 2. Installing in Particle Workbench
+
+If you're using Particle Workbench, first open the project you want to use with TensorFlow Lite. Then, open the Command Palette by typing CMD+SHIFT+P (macOX/Linux) or CTRL+SHIFT+P (Windows).
+
+![](assets/WBCP.png)
+
+Search for the "Particle: Install Library" option and click it.
+
+![](assets/LibrarySearchWB.png)
+
+Type "TensorFlowLite" and hit enter. Workbench will install the library into a `lib` directory at the root of your project and notify you when complete.
+
+![](assets/InstallNotice.png)
+
+### 3. Installing with the Particle CLI
+
+To install this library using the [Particle CLI](https://docs.particle.io/tutorials/developer-tools/cli/), run the following command from a Particle project directory.
+
+```bash
+$ particle library install TensorFlowLite
+
+Checking library TensorFlowLite...
+Installing library TensorFlowLite 0.1.0 to /Users/bsatrom/Particle/community/libraries/TensorFlowLite@0.1.0 ...
+Library TensorFlowLite 0.1.0 installed.
+```
+
 ## Using the library
 
 See the [TensorFlow Lite for Microcontrollers docs](https://www.tensorflow.org/lite/microcontrollers/get_started#how_to_run_inference) for detailed instructions on running inference on embedded devices.
@@ -35,7 +79,3 @@ The source contains the following examples, some of which require additional har
 4. `micro_speech` - Runs a speech detection model (18k in size) that can recognize the words "yes" and "no." Uses the output to flash the onboard D7 LED when "yes" is detected. Requires an [electret microphone amplifier](https://www.adafruit.com/product/1713). This example is only supported on Particle 3rd gen devices (Argon, Boron, Xenon).
 5. `magic_wand` - [Not yet supported]
 6. `person_detection` - [Not yet supported]
-
-## Dealing with Large Models
-
-[TODO]
