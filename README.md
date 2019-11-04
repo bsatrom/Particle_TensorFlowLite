@@ -78,4 +78,4 @@ The source contains the following examples, some of which require additional har
 3. `sine_with_screen` - Runs the same sine wave model from the `hello_world` project, and outputs the result to an [Adafruit 3.5" TFT FeatherWing](https://www.adafruit.com/product/3651). Can easily be adapted to other displays.
 4. `micro_speech` - Runs a speech detection model (18k in size) that can recognize the words "yes" and "no." Uses the output to flash the onboard D7 LED when "yes" is detected. Requires an [electret microphone amplifier](https://www.adafruit.com/product/1713). This example is only supported on Particle 3rd gen devices (Argon, Boron, Xenon).
 5. `magic_wand` - [Not yet supported]
-6. `person_detection` - [Not yet supported]
+6. `person_detection` - Runs a person detection model (250k in size) that can detect a person in an image from a connected camera. Requires the [ArduCam](https://www.arducam.com/product/arducam-2mp-spi-camera-b0067-arduino/) and dependent libraries. *NOTE*: This demo has been ported, but cannot currently be run on Particle devices as the model overflows available flash space significantly. 

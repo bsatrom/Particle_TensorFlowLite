@@ -14,8 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 #include "detection_responder.h"
-
-#include "Arduino.h"
+#include <Particle.h>
 
 // Pins for the built-in RGB LEDs on the Arduino Nano 33 BLE Sense
 const int led_red = 22;
@@ -23,10 +22,12 @@ const int led_green = 23;
 const int led_blue = 24;
 
 // Flash the blue LED after each inference
-void RespondToDetection(tflite::ErrorReporter* error_reporter,
-                        uint8_t person_score, uint8_t no_person_score) {
+void RespondToDetection(tflite::ErrorReporter *error_reporter,
+                        uint8_t person_score, uint8_t no_person_score)
+{
   static bool is_initialized = false;
-  if (!is_initialized) {
+  if (!is_initialized)
+  {
     pinMode(led_green, OUTPUT);
     pinMode(led_blue, OUTPUT);
     is_initialized = true;
@@ -46,10 +47,13 @@ void RespondToDetection(tflite::ErrorReporter* error_reporter,
 
   // Switch on the green LED when a person is detected,
   // the red when no person is detected
-  if (person_score > no_person_score) {
+  if (person_score > no_person_score)
+  {
     digitalWrite(led_green, LOW);
     digitalWrite(led_red, HIGH);
-  } else {
+  }
+  else
+  {
     digitalWrite(led_green, HIGH);
     digitalWrite(led_red, LOW);
   }
