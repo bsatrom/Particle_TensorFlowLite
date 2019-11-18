@@ -13,11 +13,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_NO_MICRO_FEATURES_DATA_H_
-#define TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_NO_MICRO_FEATURES_DATA_H_
+#ifndef TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_ACCELEROMETER_HANDLER_H_
+#define TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_ACCELEROMETER_HANDLER_H_
 
-extern const int g_no_micro_f9643d42_nohash_4_width;
-extern const int g_no_micro_f9643d42_nohash_4_height;
-extern const unsigned char g_no_micro_f9643d42_nohash_4_data[];
+#define kChannelNumber 3
 
-#endif  // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_NO_MICRO_FEATURES_DATA_H_
+#include "tensorflow/lite/c/c_api_internal.h"
+#include "tensorflow/lite/experimental/micro/micro_error_reporter.h"
+
+extern int begin_index;
+extern TfLiteStatus SetupAccelerometer(tflite::ErrorReporter* error_reporter);
+extern bool ReadAccelerometer(tflite::ErrorReporter* error_reporter,
+                              float* input, int length, bool reset_buffer);
+
+#endif  // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_ACCELEROMETER_HANDLER_H_

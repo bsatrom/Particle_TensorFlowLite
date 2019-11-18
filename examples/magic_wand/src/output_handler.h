@@ -13,8 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "main_functions.h"
+#ifndef TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_OUTPUT_HANDLER_H_
+#define TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_OUTPUT_HANDLER_H_
 
-// Particle automatically calls the setup() and loop() functions in a sketch, so
-// where other systems need their own main routine in this file, it can be left
-// empty.
+#include "tensorflow/lite/c/c_api_internal.h"
+#include "tensorflow/lite/experimental/micro/micro_error_reporter.h"
+
+void HandleOutput(tflite::ErrorReporter* error_reporter, int kind);
+
+#endif  // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_OUTPUT_HANDLER_H_

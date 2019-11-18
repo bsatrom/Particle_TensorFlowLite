@@ -1,4 +1,4 @@
-/* Copyright 2018 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2019 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,11 +13,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "micro_features_micro_model_settings.h"
+#ifndef TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_GESTURE_PREDICTOR_H_
+#define TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_GESTURE_PREDICTOR_H_
 
-const char* kCategoryLabels[kCategoryCount] = {
-    "silence",
-    "unknown",
-    "yes",
-    "no",
-};
+extern int PredictGesture(float* output);
+
+#endif  // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_GESTURE_PREDICTOR_H_

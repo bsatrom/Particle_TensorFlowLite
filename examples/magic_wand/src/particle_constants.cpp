@@ -13,8 +13,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#include "main_functions.h"
+#include "constants.h"
 
-// Particle automatically calls the setup() and loop() functions in a sketch, so
-// where other systems need their own main routine in this file, it can be left
-// empty.
+// The number of expected consecutive inferences for each gesture type.
+// Established with the Particle Xenon.
+// 0 = Wing
+// 1 = Ring
+// 2 = Slope
+const int kConsecutiveInferenceThresholds[3] = {5, 12, 6};
