@@ -1,4 +1,4 @@
-/* Copyright 2019 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2018 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,12 +13,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-#ifndef TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_OUTPUT_HANDLER_H_
-#define TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_OUTPUT_HANDLER_H_
+#include "micro_features_micro_model_settings.h"
 
-#include "tensorflow/lite/c/c_api_internal.h"
-#include "tensorflow/lite/experimental/micro/micro_error_reporter.h"
-
-void HandleOutput(tflite::ErrorReporter* error_reporter, int kind);
-
-#endif  // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_OUTPUT_HANDLER_H_
+const char* kCategoryLabels[kCategoryCount] = {
+    "silence",
+    "unknown",
+    "yes",
+    "no",
+};

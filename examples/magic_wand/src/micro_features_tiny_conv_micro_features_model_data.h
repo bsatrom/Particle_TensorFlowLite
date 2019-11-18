@@ -16,12 +16,12 @@ limitations under the License.
 // This is a standard TensorFlow Lite model file that has been converted into a
 // C data array, so it can be easily compiled into a binary for devices that
 // don't have a file system. It was created using the command:
-// xxd -i magic_wand_model.tflite > magic_wand_model_data.cc
+// xxd -i tiny_conv.tflite > tiny_conv_simple_features_model_data.cc
 
-#ifndef TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_MAGIC_WAND_MODEL_DATA_H_
-#define TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_MAGIC_WAND_MODEL_DATA_H_
+#ifndef TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_TINY_CONV_MICRO_FEATURES_MODEL_DATA_H_
+#define TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_TINY_CONV_MICRO_FEATURES_MODEL_DATA_H_
 
-extern const unsigned char g_magic_wand_model_data[];
-extern const int g_magic_wand_model_data_len;
+extern const unsigned char g_tiny_conv_micro_features_model_data[];
+extern const int g_tiny_conv_micro_features_model_data_len;
 
-#endif  // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MAGIC_WAND_MAGIC_WAND_MODEL_DATA_H_
+#endif  // TENSORFLOW_LITE_EXPERIMENTAL_MICRO_EXAMPLES_MICRO_SPEECH_MICRO_FEATURES_TINY_CONV_MICRO_FEATURES_MODEL_DATA_H_
