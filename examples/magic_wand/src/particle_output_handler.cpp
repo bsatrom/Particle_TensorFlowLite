@@ -40,6 +40,9 @@ void HandleOutput(tflite::ErrorReporter *error_reporter, int kind)
   // Print some ASCII art for each gesture
   if (kind == 0)
   {
+    RGB.control(true);
+    RGB.color(0, 255, 0); // Green
+
     error_reporter->Report(
         "WING:\n\r*         *         *\n\r *       * *       "
         "*\n\r  *     *   *     *\n\r   *   *     *   *\n\r    * *       "
@@ -47,6 +50,9 @@ void HandleOutput(tflite::ErrorReporter *error_reporter, int kind)
   }
   else if (kind == 1)
   {
+    RGB.control(true);
+    RGB.color(0, 0, 255); // Blue
+
     error_reporter->Report(
         "RING:\n\r          *\n\r       *     *\n\r     *         *\n\r "
         "   *           *\n\r     *         *\n\r       *     *\n\r      "
@@ -54,8 +60,15 @@ void HandleOutput(tflite::ErrorReporter *error_reporter, int kind)
   }
   else if (kind == 2)
   {
+    RGB.control(true);
+    RGB.color(255, 0, 0); // Red
+
     error_reporter->Report(
         "SLOPE:\n\r        *\n\r       *\n\r      *\n\r     *\n\r    "
         "*\n\r   *\n\r  *\n\r * * * * * * * *\n\r");
+  }
+  else
+  {
+    RGB.control(false);
   }
 }

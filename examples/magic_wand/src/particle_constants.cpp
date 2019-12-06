@@ -20,4 +20,4 @@ limitations under the License.
 // 0 = Wing
 // 1 = Ring
 // 2 = Slope
-const int kConsecutiveInferenceThresholds[3] = {5, 12, 6};
+const int kConsecutiveInferenceThresholds[3] = {2, 2, 2};

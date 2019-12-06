@@ -16,10 +16,7 @@ limitations under the License.
 #include "accelerometer_handler.h"
 
 #include <Particle.h>
-#include <LSM9DS1_FIFO.h>
-#include <Adafruit_Sensor.h>
-
-LSM9DS1_FIFO accel = LSM9DS1_FIFO();
+#include <Arduino_LSM9DS1.h>
 
 #include "constants.h"
 
@@ -29,15 +26,10 @@ float save_data[600] = {0.0};
 int begin_index = 0;
 // True if there is not yet enough data to run inference
 bool pending_initial_data = true;
+// How often we should save a measurement during downsampling
+int sample_every_n;
 // The number of measurements since we last saved one
 int sample_skip_counter = 1;
-
-bool accelerometer_started = false;
-
-// Determine how many measurements to keep in order to meet kTargetHz
-float sample_rate = 119.f;
-// How often we should save a measurement during downsampling
-int sample_every_n = static_cast<int>(roundf(sample_rate / kTargetHz));
 
 TfLiteStatus SetupAccelerometer(tflite::ErrorReporter *error_reporter)
 {
@@ -47,17 +39,16 @@ TfLiteStatus SetupAccelerometer(tflite::ErrorReporter *error_reporter)
   }
 
   // Switch on the IMU
-  if (!accel.begin())
+  if (!IMU.begin())
   {
-    error_reporter->Report("Failed to initialize accelerometer. Please reset");
+    error_reporter->Report("Failed to initialize IMU");
     return kTfLiteError;
   }
 
-  accelerometer_started = true;
-
-  accel.setupAccel(accel.LSM9DS1_ACCELRANGE_2G);
-  accel.setupMag(accel.LSM9DS1_MAGGAIN_4GAUSS);
-  accel.setupGyro(accel.LSM9DS1_GYROSCALE_245DPS);
+  // Determine how many measurements to keep in order to
+  // meet kTargetHz
+  float sample_rate = IMU.accelerationSampleRate();
+  sample_every_n = static_cast<int>(roundf(sample_rate / kTargetHz));
 
   error_reporter->Report("Magic starts!");
 
@@ -77,34 +68,15 @@ bool ReadAccelerometer(tflite::ErrorReporter *error_reporter, float *input,
   // Keep track of whether we stored any new data
   bool new_data = false;
   // Loop through new samples and add to buffer
-
-  if (!accelerometer_started)
+  while (IMU.accelerationAvailable())
   {
-    if (!accel.begin())
-    {
-      return false;
-    }
-
-    accel.setupAccel(accel.LSM9DS1_ACCELRANGE_2G);
-    accel.setupMag(accel.LSM9DS1_MAGGAIN_4GAUSS);
-    accel.setupGyro(accel.LSM9DS1_GYROSCALE_245DPS);
-
-    error_reporter->Report("Accelerometer enabled");
-    accelerometer_started = true;
-  }
-
-  while (accel.accelerationAvailable())
-  {
-    accel.read();
-
-    sensors_event_t accelData, magData, gyroData, temp;
+    float x, y, z;
     // Read each sample, removing it from the device's FIFO buffer
-    if (!accel.getEvent(&accelData, &magData, &gyroData, &temp))
+    if (!IMU.readAcceleration(x, y, z))
     {
       error_reporter->Report("Failed to read data");
       break;
     }
-
     // Throw away this sample unless it's the nth
     if (sample_skip_counter != sample_every_n)
     {
@@ -115,10 +87,9 @@ bool ReadAccelerometer(tflite::ErrorReporter *error_reporter, float *input,
     // and flipping y and x order for compatibility with
     // model (sensor orientation is different on Arduino
     // Nano BLE Sense compared with SparkFun Edge)
-    save_data[begin_index++] = accelData.acceleration.x * 1000; //accelData.acceleration.y * 1000;
-    save_data[begin_index++] = accelData.acceleration.y * 1000; //accelData.acceleration.x * 1000;
-    save_data[begin_index++] = accelData.acceleration.z * 1000;
-
+    save_data[begin_index++] = y * 1000;
+    save_data[begin_index++] = x * 1000;
+    save_data[begin_index++] = z * 1000;
     // Since we took a sample, reset the skip counter
     sample_skip_counter = 1;
     // If we reached the end of the circle buffer, reset
@@ -127,8 +98,6 @@ bool ReadAccelerometer(tflite::ErrorReporter *error_reporter, float *input,
       begin_index = 0;
     }
     new_data = true;
-
-    break;
   }
 
   // Skip this round if data is not ready yet
